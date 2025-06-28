@@ -1,5 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { StoreProvider } from "@/store/StoreProvider";
+import Toast from "@/components/Toast";
+import Loading from "@/components/Loading.jsx";
+import Link from "next/link";
+import Edit from "@/components/Edit";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,11 +24,24 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <StoreProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Toast />
+          <Loading />
+          <aside style={{ margin: "30px 10px" }}>
+            <Link href="/post">Post</Link>
+            <Link href="/notice">Notice</Link>
+            <Link href="/gallery">Gallery</Link>
+            <Link href="/batch">Batch</Link>
+            <Link href="/student">Student</Link>
+            <Link href="/event">Event</Link>
+            <Edit model={"feedback"} id={`/dashboard/feedback`} />
+          </aside>
+          {children}
+        </body>
+      </StoreProvider>
     </html>
   );
 }
