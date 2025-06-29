@@ -60,7 +60,7 @@ export default function NoticeUpdate() {
       payload: {
         message: result.message || result.error || "Unknown error",
         status: result.message ? "success" : "error",
-        path: result.message ? "/notice" : "",
+        path: result.message ? `/notice/${id}` : "",
       },
     });
 

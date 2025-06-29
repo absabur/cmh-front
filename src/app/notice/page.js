@@ -1,7 +1,36 @@
-import Edit from "@/components/Edit";
+"use client";
 
-const Notice = async () => {
-  const noticesData = await notices();
+import { useEffect, useState } from "react";
+import Edit from "@/components/Edit";
+import Link from "next/link";
+
+const Notice = () => {
+  const [noticesData, setNoticesData] = useState([]);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const [total, setTotal] = useState(0);
+  const totalPages = Math.ceil(total / limit);
+
+  useEffect(() => {
+    const fetchNotices = async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notice?page=${page}&limit=${limit}`
+      );
+      const data = await response.json();
+      setNoticesData(data.notices);
+      setTotal(data.total);
+    };
+
+    fetchNotices();
+  }, [page]);
+
+  const handlePrev = () => {
+    if (page > 1) setPage((prev) => prev - 1);
+  };
+
+  const handleNext = () => {
+    if (page < totalPages) setPage((prev) => prev + 1);
+  };
 
   return (
     <div>
@@ -13,7 +42,7 @@ const Notice = async () => {
           {noticesData.map((notice) => (
             <div key={notice._id}>
               <Edit model={"notice"} id={notice._id} />
-              <h3>{notice.title}</h3>
+              <Link href={`/notice/${notice._id}`}>title: {notice.title}</Link>
               <p>
                 <strong>Description:</strong> {notice.description}
               </p>
@@ -37,10 +66,10 @@ const Notice = async () => {
               </p>
               <p>
                 <strong>Images:</strong>{" "}
-                {notice.images.map((image, index) => (
+                {notice.images.map((image) => (
                   <img
-                    key={Math.random()}
-                    src={`${image.url}`}
+                    key={image.url}
+                    src={image.url}
                     alt="Notice"
                     style={{
                       width: "100px",
@@ -54,6 +83,17 @@ const Notice = async () => {
               <hr />
             </div>
           ))}
+          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+            <button onClick={handlePrev} disabled={page === 1}>
+              Previous
+            </button>
+            <span>
+              Page {page} of {totalPages}
+            </span>
+            <button onClick={handleNext} disabled={page === totalPages}>
+              Next
+            </button>
+          </div>
         </>
       )}
     </div>
@@ -61,12 +101,3 @@ const Notice = async () => {
 };
 
 export default Notice;
-
-// fetcher function
-const notices = async () => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/notice`
-  );
-  const data = await response.json();
-  return data.notices;
-};

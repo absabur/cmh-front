@@ -32,12 +32,13 @@ export default function RootLayout({ children }) {
   }, [pathname, dispatch]);
   return (
     <div>
-      <aside style={{margin: "30px 10px"}}>
+      <aside style={{ margin: "30px 10px" }}>
         <Link href="/dashboard/post/create">Post Create</Link>
         <Link href="/dashboard/notice/create">Notice Create</Link>
         <Link href="/dashboard/gallery/create">Gallery Create</Link>
         <Link href="/dashboard/batch/create">Batch Create</Link>
         <Link href="/dashboard/student/create">Student Create</Link>
+        <Link href="/dashboard/teacher/create">Teacher Create</Link>
         <Link href="/dashboard/event/create">Event Create</Link>
       </aside>
       {children}

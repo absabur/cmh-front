@@ -4,109 +4,65 @@ import { useEffect, useState } from "react";
 import Edit from "@/components/Edit";
 import Link from "next/link";
 
-const Student = () => {
-  const [studentsData, setStudentsData] = useState([]);
-  const [batches, setBatches] = useState([]);
+const Teacher = () => {
+  const [teachersData, setTeachersData] = useState([]);
 
   const [page, setPage] = useState(1);
   const limit = 10;
   const [total, setTotal] = useState(0);
 
   const [search, setSearch] = useState("");
-  const [type, setType] = useState("");
-  const [batch, setBatch] = useState("");
   const [sortBy, setSortBy] = useState("createDate");
   const [sortOrder, setSortOrder] = useState("desc");
 
   const totalPages = Math.ceil(total / limit);
 
   useEffect(() => {
-    const fetchBatches = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/batch`
-      );
-      const data = await res.json();
-      setBatches(data.batches || []);
-    };
-
-    fetchBatches();
-  }, []);
-
-  useEffect(() => {
-    const fetchStudents = async () => {
+    const fetchTeachers = async () => {
       const query = new URLSearchParams({
         page,
         limit,
         search,
-        type,
-        batch,
         sortBy,
         sortOrder,
       });
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/student?${query}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/teacher?${query}`
       );
       const data = await res.json();
 
-      setStudentsData(data.students || []);
+      setTeachersData(data.teachers || []);
       setTotal(data.total || 0);
     };
 
-    fetchStudents();
-  }, [page, search, type, batch, sortBy, sortOrder]);
+    fetchTeachers();
+  }, [page, search, sortBy, sortOrder]);
 
   const handleResetFilters = () => {
     setSearch("");
-    setType("");
-    setBatch("");
     setPage(1);
   };
 
   return (
     <div>
-      <h2>Student List</h2>
+      <h2>Teacher List</h2>
 
       {/* 🔍 Filter UI */}
       <div style={{ marginBottom: "1rem" }}>
         <input
           type="text"
-          placeholder="name/email/phone/profession"
+          placeholder="name/email/phone/title"
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
             setPage(1);
           }}
         />
-        <select
-          value={type}
-          onChange={(e) => {
-            setType(e.target.value);
-            setPage(1);
-          }}
-        >
-          <option value="">All Types</option>
-          <option value="Student">Student</option>
-          <option value="Teacher">Teacher</option>
-          <option value="Alumni">Alumni</option>
-        </select>
-        <select
-          value={batch}
-          onChange={(e) => {
-            setBatch(e.target.value);
-            setPage(1);
-          }}
-        >
-          <option value="">All Batches</option>
-          {batches.map((b) => (
-            <option key={b._id} value={b._id}>
-              {b.name}
-            </option>
-          ))}
-        </select>
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
           <option value="createDate">Created Date</option>
           <option value="name">Name</option>
+          <option value="title">Title</option>
         </select>
         <select
           value={sortOrder}
@@ -118,19 +74,19 @@ const Student = () => {
         <button onClick={handleResetFilters}>Reset</button>
       </div>
 
-      {/* 🧑‍🎓 Students List */}
-      {studentsData.length === 0 ? (
-        <p>No student data found.</p>
+      {/* 🧑‍🎓 Teachers List */}
+      {teachersData.length === 0 ? (
+        <p>No teacher data found.</p>
       ) : (
         <>
-          {studentsData.map((member) => (
+          {teachersData.map((member) => (
             <div key={member._id}>
-              <Edit model={"student"} id={member._id} />
-              <Link href={`/student/${member._id}`}>{member.name}</Link>
+              <Edit model={"teacher"} id={member._id} />
+              <Link href={`/teacher/${member._id}`}>{member.name}</Link>
               {member.avatar && (
                 <img
                   src={`${member.avatar.url}`}
-                  alt="Student Avatar"
+                  alt="Teacher Avatar"
                   style={{
                     width: "100px",
                     height: "100px",
@@ -146,22 +102,13 @@ const Student = () => {
                 <strong>Phone:</strong> {member.phone}
               </p>
               <p>
-                <strong>Type:</strong> {member.type}
-              </p>
-              <p>
-                <strong>Profession:</strong> {member.profession}
-              </p>
-              <p>
-                <strong>Batch:</strong> {member.batch?.name}
+                <strong>Title:</strong> {member.title}
               </p>
               <p>
                 <strong>About:</strong> {member.about}
               </p>
               <p>
                 <strong>Address:</strong> {member.address}
-              </p>
-              <p>
-                <strong>Active:</strong> {member.isActive ? "Yes" : "No"}
               </p>
               <p>
                 <strong>Created:</strong> {member.createDate?.date} at{" "}
@@ -199,4 +146,4 @@ const Student = () => {
   );
 };
 
-export default Student;
+export default Teacher;

@@ -57,7 +57,7 @@ export default function PostUpdate() {
       payload: {
         message: result.message || result.error || "Unknown error",
         status: result.message ? "success" : "error",
-        path: result.message ? "/post" : "",
+        path: result.message ? `/post/${id}` : "",
       },
     });
 

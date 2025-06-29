@@ -31,12 +31,15 @@ export default function RootLayout({ children }) {
           <Toast />
           <Loading />
           <aside style={{ margin: "30px 10px" }}>
+            <Link href="/">Home</Link>
             <Link href="/post">Post</Link>
             <Link href="/notice">Notice</Link>
             <Link href="/gallery">Gallery</Link>
             <Link href="/batch">Batch</Link>
             <Link href="/student">Student</Link>
+            <Link href="/teacher">Teacher</Link>
             <Link href="/event">Event</Link>
+            <Link href="/feedback">Give a feedback</Link>
             <Edit model={"feedback"} id={`/dashboard/feedback`} />
           </aside>
           {children}
