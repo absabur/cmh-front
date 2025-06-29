@@ -38,7 +38,7 @@ export default function GalleryAdd() {
       payload: {
         message: result.message || result.error || "Unknown error",
         status: result.message ? "success" : "error",
-        path: result.message ? "/dashboard/gallery" : "",
+        path: result.message ? "/gallery" : "",
       },
     });
 

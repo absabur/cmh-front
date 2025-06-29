@@ -38,7 +38,7 @@ export default function PostAdd() {
       payload: {
         message: result.message || result.error || "Unknown error",
         status: result.message ? "success" : "error",
-        path: result.message ? "/dashboard/post" : "",
+        path: result.message ? "/post" : "",
       },
     });
 

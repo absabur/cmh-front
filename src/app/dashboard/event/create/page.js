@@ -31,7 +31,7 @@ export default function EventAdd() {
         payload: {
           message: result.message,
           status: "success",
-          path: "/dashboard/event",
+          path: "/event",
         },
       });
     } else {
