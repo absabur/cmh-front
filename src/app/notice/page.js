@@ -80,7 +80,7 @@ const Notice = () => {
                   />
                 ))}
               </p>
-              <hr />
+              <hr style={{margin: "25px 0"}}/>
             </div>
           ))}
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>

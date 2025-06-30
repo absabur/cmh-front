@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import Edit from "@/components/Edit";
 
 const Gallery = () => {
@@ -43,41 +43,53 @@ const Gallery = () => {
               <Edit model="gallery" id={item._id} />
               <h3>{item.title}</h3>
               <p>
-                <strong>YouTube Link:</strong>{" "}
-                <a href={item.youtubeLink} target="_blank" rel="noopener noreferrer">
-                  {item.youtubeLink}
-                </a>
+                <strong>YouTube Video:</strong>
+              </p>
+              <div className="video-container">
+                <iframe
+                  width="560"
+                  height="315"
+                  src={`https://www.youtube.com/embed/${getYouTubeID(
+                    item.youtubeLink
+                  )}`}
+                  title="YouTube video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+
+              <p>
+                <strong>Posted By:</strong> {item.postedBy?.name} (
+                {item.postedBy?.email})
               </p>
               <p>
-                <strong>Posted By:</strong> {item.postedBy?.name} ({item.postedBy?.email})
+                <strong>Created At:</strong> {item.createDate?.date}{" "}
+                {item.createDate?.formatedTime}
               </p>
               <p>
-                <strong>Created At:</strong> {item.createDate?.date} {item.createDate?.formatedTime}
-              </p>
-              <p>
-                <strong>Updated At:</strong> {item.updateDate?.date} {item.updateDate?.formatedTime}
+                <strong>Updated At:</strong> {item.updateDate?.date}{" "}
+                {item.updateDate?.formatedTime}
               </p>
               <p>
                 <strong>Images:</strong>{" "}
-                {item.images && item.images.length > 0 ? (
-                  item.images.map((image, index) => (
-                    <img
-                      key={image.url}
-                      src={image.url}
-                      alt={`Gallery Image ${index + 1}`}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        margin: "5px",
-                        objectFit: "contain",
-                      }}
-                    />
-                  ))
-                ) : (
-                  "No images available"
-                )}
+                {item.images && item.images.length > 0
+                  ? item.images.map((image, index) => (
+                      <img
+                        key={image.url}
+                        src={image.url}
+                        alt={`Gallery Image ${index + 1}`}
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                          margin: "5px",
+                          objectFit: "contain",
+                        }}
+                      />
+                    ))
+                  : "No images available"}
               </p>
-              <hr />
+              <hr style={{margin: "25px 0"}}/>
             </div>
           ))}
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
@@ -98,3 +110,10 @@ const Gallery = () => {
 };
 
 export default Gallery;
+
+function getYouTubeID(url) {
+  const regExp =
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+}

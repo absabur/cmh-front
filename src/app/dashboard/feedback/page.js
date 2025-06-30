@@ -28,7 +28,7 @@ const Feedback = () => {
         <>
           {feedbacksData.map((feedback) => (
             <div key={feedback._id}>
-              <hr />
+              <hr style={{margin: "25px 0"}}/>
               <h3>
                 {feedback.name} ({feedback.email})
               </h3>

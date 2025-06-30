@@ -49,7 +49,7 @@ const Event = () => {
           {eventsData.map((event) => (
             <div key={event._id}>
               <Edit model={"event"} id={event._id} />
-              <hr />
+              <hr style={{margin: "25px 0"}}/>
               <h3>
                 {event.title} ({event.titleBangla})
               </h3>

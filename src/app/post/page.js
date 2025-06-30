@@ -49,15 +49,22 @@ const Post = () => {
                 <strong>Content:</strong> {post.content}
               </p>
               <p>
-                <strong>YouTube Link:</strong>{" "}
-                <a
-                  href={post.youtubeLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {post.youtubeLink}
-                </a>
+                <strong>YouTube Video:</strong>
               </p>
+              <div className="video-container">
+                <iframe
+                  width="560"
+                  height="315"
+                  src={`https://www.youtube.com/embed/${getYouTubeID(
+                    post.youtubeLink
+                  )}`}
+                  title="YouTube video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+
               <p>
                 <strong>Images:</strong>{" "}
                 {post.images.map((image) => (
@@ -74,7 +81,7 @@ const Post = () => {
                   />
                 ))}
               </p>
-              <hr />
+              <hr style={{margin: "25px 0"}}/>
             </div>
           ))}
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
@@ -95,3 +102,10 @@ const Post = () => {
 };
 
 export default Post;
+
+function getYouTubeID(url) {
+  const regExp =
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+}

@@ -171,7 +171,7 @@ const Student = () => {
                 <strong>Updated:</strong> {member.updateDate?.date} at{" "}
                 {member.updateDate?.formatedTime}
               </p>
-              <hr />
+              <hr style={{margin: "25px 0"}}/>
             </div>
           ))}
 

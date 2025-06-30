@@ -51,7 +51,7 @@ const Page = async ({ params }) => {
         <strong>Updated:</strong> {teacher.updateDate?.date} at{" "}
         {teacher.updateDate?.formatedTime}
       </p>
-      <hr />
+      <hr style={{margin: "25px 0"}}/>
     </div>
   );
 };

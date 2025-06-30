@@ -11,7 +11,7 @@ const Batch = async () => {
         <>
           {batchesData?.map((batch) => (
             <div key={batch._id}>
-              <hr />
+              <hr style={{margin: "25px 0"}}/>
               <Edit model={"batch"} id={batch._id} />
               <strong>Name:</strong> {batch.name} <br />
               <strong>Created:</strong> {batch.createDate?.date} at{" "}
